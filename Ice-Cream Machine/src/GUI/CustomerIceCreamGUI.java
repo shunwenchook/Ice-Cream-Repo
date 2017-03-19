@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -17,7 +18,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import Database.DatabaseClasses;
-import Database.DatabaseConnect;
 
 public class CustomerIceCreamGUI extends JFrame implements ActionListener, MouseListener{
 	
@@ -27,7 +27,7 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 	private static final long serialVersionUID = 1L;
 	
 	JList <String> coneList, toppingList, flavourList;
-	JLabel coneLabel, toppingLabel, flavourLabel, totalLabel;
+	JLabel coneLabel, toppingLabel, flavourLabel, coneImageLabel, toppingImageLabel, flavourImageLabel, totalLabel;
 	JButton confirmButton;
 	
 	double total = 0;
@@ -36,19 +36,29 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 	double toppingTotal = 0;
 	double flavourTotal = 0;
 	
-	DatabaseConnect dbEngine = new DatabaseConnect("root", ""); //database engine
 	/**
 	 * 
 	 */
 	public CustomerIceCreamGUI() {
 		super("Customer - Pick your Ice-Cream");
 
-		
+
 
 		coneLabel = new JLabel("Cone");
 		toppingLabel = new JLabel("Topping");
 		flavourLabel = new JLabel("Flavour");
+		coneImageLabel = new JLabel();
+		toppingImageLabel = new JLabel();
+		flavourImageLabel = new JLabel();
+
+		ImageIcon coneImage = new ImageIcon("resources/classic_cone.png");  //this generates an image file
+		coneImageLabel.setIcon(coneImage);
+
+		ImageIcon toppingImage = new ImageIcon("resources/vanila.jpg");  //this generates an image file
+		toppingImageLabel.setIcon(toppingImage);
 		
+		ImageIcon flavourImage = new ImageIcon("resources/chocolate_chip.jpg");  //this generates an image file
+		flavourImageLabel.setIcon(flavourImage);
 
 		//String[] coneArray = {"Classic", "Cup", "Chocolate", "Large"};
 		//String[] toppingArray = {"Chocolate Chip", "Marshmellow", "Sugar Sprinkles"};
@@ -79,8 +89,15 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		JPanel panel6 = new JPanel();
 		
 		panel1.add(coneLabel);
+		panel1.add(coneImageLabel);
+
+		
 		panel2.add(toppingLabel);
+		panel2.add(toppingImageLabel);
+		
 		panel3.add(flavourLabel);
+		panel3.add(flavourImageLabel);
+		
 		panel4.add(coneScroll);
 		panel5.add(toppingScroll);
 		panel6.add(flavourScroll);
@@ -133,9 +150,11 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		CustomerIceCreamGUI gui = new CustomerIceCreamGUI();
 	}
 	
+	/**
 	public void init() {
 		dbEngine.connect();
 	}
+	**/
 	
 	
 
