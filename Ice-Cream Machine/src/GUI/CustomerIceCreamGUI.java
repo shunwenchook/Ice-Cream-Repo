@@ -37,7 +37,6 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 	double flavourTotal = 0;
 	
 	DatabaseConnect dbEngine = new DatabaseConnect("root", ""); //database engine
-	//Test
 	/**
 	 * 
 	 */
