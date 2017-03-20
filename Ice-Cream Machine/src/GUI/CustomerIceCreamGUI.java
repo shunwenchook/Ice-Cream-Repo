@@ -30,6 +30,8 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 	JLabel coneLabel, toppingLabel, flavourLabel, coneImageLabel, toppingImageLabel, flavourImageLabel, totalLabel;
 	JButton confirmButton;
 	
+	ImageIcon coneImage, toppingImage, flavourImage;
+		
 	double total = 0;
 	
 	double coneTotal = 0;
@@ -51,14 +53,14 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		toppingImageLabel = new JLabel();
 		flavourImageLabel = new JLabel();
 
-		ImageIcon coneImage = new ImageIcon("resources/classic_cone.png");  //this generates an image file
-		coneImageLabel.setIcon(coneImage);
+		//coneImage = new ImageIcon("resources/classic_cone.png");  //this generates an image file
+		//coneImageLabel.setIcon(coneImage);
 
-		ImageIcon toppingImage = new ImageIcon("resources/vanila.jpg");  //this generates an image file
-		toppingImageLabel.setIcon(toppingImage);
+		//toppingImage = new ImageIcon("resources/vanila.jpg");  //this generates an image file
+		//toppingImageLabel.setIcon(toppingImage);
 		
-		ImageIcon flavourImage = new ImageIcon("resources/chocolate_chip.jpg");  //this generates an image file
-		flavourImageLabel.setIcon(flavourImage);
+		//flavourImage = new ImageIcon("resources/chocolate_chip.jpg");  //this generates an image file
+		//flavourImageLabel.setIcon(flavourImage);
 
 		//String[] coneArray = {"Classic", "Cup", "Chocolate", "Large"};
 		//String[] toppingArray = {"Chocolate Chip", "Marshmellow", "Sugar Sprinkles"};
@@ -71,7 +73,6 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		coneList.addMouseListener(this);
 		toppingList.addMouseListener(this);
 		flavourList.addMouseListener(this);
-
 		
 		JScrollPane coneScroll = new JScrollPane(coneList);
 		JScrollPane toppingScroll = new JScrollPane(toppingList);
@@ -165,6 +166,8 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		if (e.getSource()== coneList) {
 	        String selectedItem = (String) coneList.getSelectedValue();
 	        coneLabel.setText(selectedItem);
+	        coneImage = new ImageIcon(DatabaseClasses.getImage(selectedItem));
+	        coneImageLabel.setIcon(coneImage);
 	        
 	        coneTotal = DatabaseClasses.getPrice(selectedItem);
 	        
@@ -173,6 +176,8 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		if (e.getSource()== toppingList) {
 	        String selectedItem = (String) toppingList.getSelectedValue();
 	        toppingLabel.setText(selectedItem);
+	        toppingImage = new ImageIcon(DatabaseClasses.getImage(selectedItem));
+	        toppingImageLabel.setIcon(toppingImage);
 	        
 	        toppingTotal = DatabaseClasses.getPrice(selectedItem);
 		}
@@ -180,6 +185,8 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
         if (e.getSource()== flavourList) {
 	        String selectedItem = (String) flavourList.getSelectedValue();
 	        flavourLabel.setText(selectedItem);
+	        flavourImage = new ImageIcon(DatabaseClasses.getImage(selectedItem));
+	        flavourImageLabel.setIcon(flavourImage);
 	        
 	        flavourTotal = DatabaseClasses.getPrice(selectedItem);
 		}

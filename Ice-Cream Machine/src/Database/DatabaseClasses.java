@@ -31,6 +31,26 @@ public class DatabaseClasses {
 		return price;
 	}
 	
+	public static String getImage(String itemName) {
+		
+		String imageDirectory = null;
+		
+		try {
+			ResultSet rs = dbEngine.executeQuery("select picture from product where name = '" + itemName + "'");
+			while (rs.next()) {
+
+			imageDirectory = rs.getString("picture");
+
+			System.out.println(imageDirectory);
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return imageDirectory;
+	}
+	
 	public static Vector<String> loadConeList() {
 		
 		Vector<String> elements = new Vector<String>();
