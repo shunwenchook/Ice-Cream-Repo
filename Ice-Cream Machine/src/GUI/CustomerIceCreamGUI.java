@@ -19,6 +19,12 @@ import javax.swing.JScrollPane;
 
 import Database.DatabaseClasses;
 
+
+/**
+ * @author Shun Wen Chook
+ * This program contains the general GUI for the user ice cream selection.
+ * the products are stored in the database.
+ */
 public class CustomerIceCreamGUI extends JFrame implements ActionListener, MouseListener{
 	
 	/**
@@ -26,50 +32,39 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 	 */
 	private static final long serialVersionUID = 1L;
 	
+	// Creates lists for the selection
 	JList <String> coneList, toppingList, flavourList;
 	JLabel coneLabel, toppingLabel, flavourLabel, coneImageLabel, toppingImageLabel, flavourImageLabel, totalLabel;
 	JButton confirmButton;
 	
 	ImageIcon coneImage, toppingImage, flavourImage;
-		
-	double total = 0;
 	
+	// Adds calculates total of each of the selection
+	double total = 0;
 	double coneTotal = 0;
 	double toppingTotal = 0;
 	double flavourTotal = 0;
 	
 	/**
-	 * 
+	 * Constructor for Selection GUI
 	 */
 	public CustomerIceCreamGUI() {
-		super("Customer - Pick your Ice-Cream");
-
-
-
+		super("Customer - Pick your Ice-Cream"); // Adds to the title of the GUI
+		
+		// Creates the labels
 		coneLabel = new JLabel("Cone");
 		toppingLabel = new JLabel("Topping");
 		flavourLabel = new JLabel("Flavour");
 		coneImageLabel = new JLabel();
 		toppingImageLabel = new JLabel();
 		flavourImageLabel = new JLabel();
-
-		//coneImage = new ImageIcon("resources/classic_cone.png");  //this generates an image file
-		//coneImageLabel.setIcon(coneImage);
-
-		//toppingImage = new ImageIcon("resources/vanila.jpg");  //this generates an image file
-		//toppingImageLabel.setIcon(toppingImage);
 		
-		//flavourImage = new ImageIcon("resources/chocolate_chip.jpg");  //this generates an image file
-		//flavourImageLabel.setIcon(flavourImage);
-
-		//String[] coneArray = {"Classic", "Cup", "Chocolate", "Large"};
-		//String[] toppingArray = {"Chocolate Chip", "Marshmellow", "Sugar Sprinkles"};
-		//String[] flavourArray = {"Chocolate", "Vanila", "Cookies and Cream", "Mint Chocolate", "Strawberry"};
-		
+		// Initiates the JLists and takes value from the database
 		coneList = new JList <String>(DatabaseClasses.loadConeList());
 		toppingList = new JList <String>(DatabaseClasses.loadToppingList());
 		flavourList = new JList <String>(DatabaseClasses.loadFlavourList());
 		
+		// Adds mouse listeners for the JLists
 		coneList.addMouseListener(this);
 		toppingList.addMouseListener(this);
 		flavourList.addMouseListener(this);
@@ -77,7 +72,7 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		JScrollPane coneScroll = new JScrollPane(coneList);
 		JScrollPane toppingScroll = new JScrollPane(toppingList);
 		JScrollPane flavourScroll = new JScrollPane(flavourList);
-
+		
 		coneList.setPreferredSize(new Dimension(150, 200));
 		toppingList.setPreferredSize(new Dimension(150, 200));
 		flavourList.setPreferredSize(new Dimension(150, 200));
@@ -91,7 +86,6 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		
 		panel1.add(coneLabel);
 		panel1.add(coneImageLabel);
-
 		
 		panel2.add(toppingLabel);
 		panel2.add(toppingImageLabel);
@@ -102,7 +96,8 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		panel4.add(coneScroll);
 		panel5.add(toppingScroll);
 		panel6.add(flavourScroll);
-
+		
+		//creates a 2 by 3 GridLayout for the selection panel
 		JPanel selectionPanel = new JPanel();
 		selectionPanel.setLayout(new GridLayout(2, 3));
 		
@@ -112,15 +107,6 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		selectionPanel.add(panel4);
 		selectionPanel.add(panel5);
 		selectionPanel.add(panel6);
-
-		/*
-		selectionPanel.add(coneLabel);
-		selectionPanel.add(toppingLabel);
-		selectionPanel.add(flavourLabel);
-		selectionPanel.add(coneList);
-		selectionPanel.add(toppingList);
-		selectionPanel.add(flavourList);
-		*/
 		
 		confirmButton = new JButton("Confirm Selection");
 		totalLabel = new JLabel("Total : ");
@@ -133,6 +119,7 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		confirmPanel.add(confirmButton);
 		totalPanel.add(totalLabel);
 		
+		// Creates a grid layout for the bottom part of the GUI
 		JPanel optionPanel = new JPanel();
 		optionPanel.setLayout(new GridLayout(1, 2));
 		optionPanel.add(totalPanel);
@@ -146,30 +133,24 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		setVisible(true);
 	}
 	
+	/**
+	 * Main method
+	 * @param args argument
+	 */
 	public static void main(String[] args) {
-		DatabaseClasses.init();
+		DatabaseClasses.init(); // starts up a Database connection
 		CustomerIceCreamGUI gui = new CustomerIceCreamGUI();
 	}
 	
-	/**
-	public void init() {
-		dbEngine.connect();
-	}
-	**/
-	
-	
-
-	@Override
 	public void mouseClicked(MouseEvent e) {
-
 		
-		if (e.getSource()== coneList) {
-	        String selectedItem = (String) coneList.getSelectedValue();
+		if (e.getSource()== coneList) { // checks if the coneList is clicked
+	        String selectedItem = (String) coneList.getSelectedValue(); // stores the selected value into a string
 	        coneLabel.setText(selectedItem);
-	        coneImage = new ImageIcon(DatabaseClasses.getImage(selectedItem));
-	        coneImageLabel.setIcon(coneImage);
+	        coneImage = new ImageIcon(DatabaseClasses.getImage(selectedItem)); // searches the database with the selectedItem name
+	        coneImageLabel.setIcon(coneImage); // sets the image to the label
 	        
-	        coneTotal = DatabaseClasses.getPrice(selectedItem);
+	        coneTotal = DatabaseClasses.getPrice(selectedItem); // passes the price to coneTotal
 	        
 		}
 
@@ -191,9 +172,9 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 	        flavourTotal = DatabaseClasses.getPrice(selectedItem);
 		}
 
-		total = coneTotal + toppingTotal + flavourTotal;
+		total = coneTotal + toppingTotal + flavourTotal; // adds up the total
 
-		totalLabel.setText("Total : " + String.format( "%.2f", total ) + " \u20ac");
+		totalLabel.setText("Total : " + String.format( "%.2f", total ) + " \u20ac"); // displays the Total
 	}
 
 	@Override
@@ -222,9 +203,8 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
 		if (e.getSource() == confirmButton) {
-			System.out.println("Total passed to next GUI : " + total);
+			System.out.println("Total passed to next GUI : " + total); // passes the total to the next GUI
 		}
 	}
 }
