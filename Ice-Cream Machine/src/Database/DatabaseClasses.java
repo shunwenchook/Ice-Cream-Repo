@@ -141,6 +141,42 @@ public class DatabaseClasses {
 
 	
 	}
+	
+	public static String getUser(String user){
+		String correctUser = "test1";
+		try {
+			ResultSet rs = dbEngine.executeQuery("select username from users where username = '" + user + "'");
+
+			while (rs.next()) {
+
+				correctUser = rs.getString("username");
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return correctUser;
+	}
+	
+	public static String getPass(String pass){
+		String correctPass = "test2";
+		
+		try {
+			ResultSet rs = dbEngine.executeQuery("select password from users where password = '" + pass + "';");
+			while (rs.next()) {
+
+				correctPass = rs.getString("password");
+
+			//System.out.println(pass);
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+				
+		return correctPass;
+	}
 
 	
 }
