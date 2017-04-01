@@ -11,9 +11,8 @@ import javax.swing.*;
 import Database.DatabaseClasses;
 import Database.DatabaseConnect;
 
-
-public class login extends JFrame implements ActionListener{
-	//creates gui elements
+public class Login extends JPanel implements ActionListener {
+	// creates gui elements
 	JButton cust;
 	JButton admin;
 	JFrame frame = new JFrame();
@@ -23,16 +22,22 @@ public class login extends JFrame implements ActionListener{
 	JTextField adminpass;
 	JLabel adminLabel;
 	JLabel custLabel;
+
+	Container c;
 	/*
 	 * connects to database
 	 */
 	DatabaseConnect dbEngine = new DatabaseConnect("root", "root");
+
 	/*
 	 * launches gui
 	 */
-	public login(){
+	public Login(Container c) {
+
+		this.c = c;
+
 		JPanel panel = new JPanel();
-		cust= new JButton("Customer login");
+		cust = new JButton("Customer login");
 		admin = new JButton("Admin login");
 		adminLabel = new JLabel("Admin");
 		custLabel = new JLabel("Customer");
@@ -49,59 +54,54 @@ public class login extends JFrame implements ActionListener{
 		cust.addActionListener(this);
 		custuser.addActionListener(this);
 		custpass.addActionListener(this);
-	
+
 		panel.setLayout(new GridLayout(8, 1));
 		panel.add(custLabel, BorderLayout.NORTH);
-		panel.add(custuser ,BorderLayout.NORTH);
-		panel.add(custpass ,BorderLayout.NORTH);
-		panel.add(cust,BorderLayout.NORTH);
-		panel.add(adminLabel,BorderLayout.SOUTH);
-		panel.add(adminuser,BorderLayout.SOUTH);
-		panel.add(adminpass,BorderLayout.SOUTH);
-		panel.add(admin,BorderLayout.SOUTH);
-		Container c = getContentPane();
-		c.add(panel);
-		
+		panel.add(custuser, BorderLayout.NORTH);
+		panel.add(custpass, BorderLayout.NORTH);
+		panel.add(cust, BorderLayout.NORTH);
+		panel.add(adminLabel, BorderLayout.SOUTH);
+		panel.add(adminuser, BorderLayout.SOUTH);
+		panel.add(adminpass, BorderLayout.SOUTH);
+		panel.add(admin, BorderLayout.SOUTH);
+		add(panel);
+
 		setVisible(true);
 		setSize(400, 400);
 	}
 
-
-	public static void main(String[] args) {
-		
-		DatabaseClasses.init();
-
-		// TODO Auto-generated method stub
-		new login();
-	}
 	/*
-	 *  This deals with user input 
-	*/
-	public void actionPerformed(ActionEvent e){
-		
+	 * This deals with user input
+	 */
+	public void actionPerformed(ActionEvent e) {
+
 		String uservalue = custuser.getText();
 		String passvalue = custpass.getText();
-		//searches database for username and password
+		// searches database for username and password
 		String correctUser = DatabaseClasses.getUser(uservalue);
 		String correctPass = DatabaseClasses.getPass(passvalue);
 		/*
 		 * checks if username and password are valid
 		 */
 
-		if(e.getSource() == cust){
+		if (e.getSource() == cust) {
 
 			if (uservalue.equals(correctUser)) {
 				if (passvalue.equals(correctPass)) {
+					revalidate();
+
+					c.removeAll();
+					c.add(new CustomerIceCreamGUI(c));
+
 					System.out.println("Success");
 				} else {
 					System.out.println("Incorrect password");
 				}
 			} else {
 				System.out.println("Incorrect username");
-			} 
+			}
 		}
 
 	}
 
 }
-

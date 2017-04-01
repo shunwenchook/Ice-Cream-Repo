@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,7 +28,7 @@ import Database.DatabaseClasses;
  * This program contains the general GUI for the user ice cream selection.
  * the products are stored in the database.
  */
-public class CustomerIceCreamGUI extends JFrame implements ActionListener, MouseListener{
+public class CustomerIceCreamGUI extends JPanel implements ActionListener, MouseListener{
 	
 	/**
 	 * 
@@ -47,11 +48,14 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 	double toppingTotal = 0;
 	double flavourTotal = 0;
 	
+	Container c;
 	/**
 	 * Constructor for Selection GUI
 	 */
-	public CustomerIceCreamGUI() {
-		super("Customer - Pick your Ice-Cream"); // Adds to the title of the GUI
+	public CustomerIceCreamGUI(Container c) {
+		this.c = c;
+		
+		//super("Customer - Pick your Ice-Cream"); // Adds to the title of the GUI
 		
 		// Creates the labels
 		coneLabel = new JLabel("Cone");
@@ -60,7 +64,7 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		coneImageLabel = new JLabel();
 		toppingImageLabel = new JLabel();
 		flavourImageLabel = new JLabel();
-		
+	    
 		// Initiates the JLists and takes value from the database
 		coneList = new JList <String>(DatabaseClasses.loadConeList());
 		toppingList = new JList <String>(DatabaseClasses.loadToppingList());
@@ -86,6 +90,15 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		JPanel panel5 = new JPanel();
 		JPanel panel6 = new JPanel();
 		
+		panel1.setPreferredSize(new Dimension(150, 250));
+		panel2.setPreferredSize(new Dimension(150, 250));
+		panel3.setPreferredSize(new Dimension(150, 250));
+
+		
+		panel1.setLayout(new BoxLayout(panel1, BoxLayout.Y_AXIS));
+		panel2.setLayout(new BoxLayout(panel2, BoxLayout.Y_AXIS));
+		panel3.setLayout(new BoxLayout(panel3, BoxLayout.Y_AXIS));
+
 		panel1.add(coneLabel);
 		panel1.add(coneImageLabel);
 		
@@ -127,9 +140,8 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 		optionPanel.add(totalPanel);
 		optionPanel.add(confirmPanel);
 
-		Container c = getContentPane();
-		c.add(selectionPanel);
-		c.add(optionPanel, BorderLayout.SOUTH);
+		add(selectionPanel);
+		add(optionPanel, BorderLayout.SOUTH);
 		
 		setSize(600,600);
 		setVisible(true);
@@ -138,11 +150,11 @@ public class CustomerIceCreamGUI extends JFrame implements ActionListener, Mouse
 	/**
 	 * Main method
 	 * @param args argument
-	 */
+	 
 	public static void main(String[] args) {
 		DatabaseClasses.init(); // starts up a Database connection
 		CustomerIceCreamGUI gui = new CustomerIceCreamGUI();
-	}
+	} */
 	
 	public void mouseClicked(MouseEvent e) {
 		
