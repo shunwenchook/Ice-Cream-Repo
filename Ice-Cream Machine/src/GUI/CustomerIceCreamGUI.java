@@ -220,7 +220,7 @@ public class CustomerIceCreamGUI extends JPanel implements ActionListener, Mouse
 			
 			revalidate();
 			c.removeAll();
-			c.add(new paymentGUI(c));
+			c.add(new paymentGUI(c, total));
 		}
 	}
 }

@@ -5,6 +5,10 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.util.Arrays;
+
 import javax.swing.*;
 
 import Database.DatabaseClasses;
@@ -44,15 +48,29 @@ public class Login extends JPanel implements ActionListener {
 		/*
 		 * Creates input fields
 		 */
-		custpass = new JPasswordField("please enter your password");
+		custpass = new JPasswordField("Please enter your password");
 		custuser = new JTextField("Please enter your username");
+				
+		custuser.addFocusListener(new FocusAdapter() {
+		    public void focusGained(FocusEvent e) {
+		        JTextField source = (JTextField)e.getComponent();
+		        source.setText("");
+		        source.removeFocusListener(this);
+		    }
+		});
+		
+		custpass.addFocusListener(new FocusAdapter() {
+		    public void focusGained(FocusEvent e) {
+		        JTextField source = (JTextField)e.getComponent();
+		        source.setText("");
+		        source.removeFocusListener(this);
+		    }
+		});
 
 		/*
 		 * allows user input to be dealth with
 		 */
 		cust.addActionListener(this);
-		custuser.addActionListener(this);
-		custpass.addActionListener(this);
 
 		panel.setLayout(new GridLayout(8, 1));
 		panel.add(custLabel, BorderLayout.NORTH);
@@ -71,10 +89,11 @@ public class Login extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 
 		String uservalue = custuser.getText();
-		String passvalue = custpass.getText();
+
 		// searches database for username and password
 		String correctUser = DatabaseClasses.getUser(uservalue);
-		String correctPass = DatabaseClasses.getPass(passvalue);
+		String correctPass = DatabaseClasses.getPass(uservalue);
+
 		/*
 		 * checks if username and password are valid
 		 */
@@ -82,13 +101,23 @@ public class Login extends JPanel implements ActionListener {
 		if (e.getSource() == cust) {
 
 			if (uservalue.equals(correctUser)) {
-				if (passvalue.equals(correctPass)) {
-					revalidate();
+				if (Arrays.equals(correctPass.toCharArray(), custpass.getPassword())) {
 
-					c.removeAll();
-					c.add(new CustomerIceCreamGUI(c));
+					if (DatabaseClasses.getStatus(uservalue).equals("admin")) {
 
-					System.out.println("Success");
+						System.out.println("Is Admin");
+					} else if (DatabaseClasses.getStatus(uservalue).equals("customer")) {
+						System.out.println("Is Customer");
+
+						revalidate();
+
+						c.removeAll();
+						c.add(new CustomerIceCreamGUI(c));
+
+						System.out.println("Success");
+
+					}
+
 				} else {
 					System.out.println("Incorrect password");
 				}

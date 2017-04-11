@@ -11,7 +11,7 @@ import javax.swing.text.AbstractDocument.Content;
 @SuppressWarnings("serial")
 public class paymentGUI extends JPanel implements ActionListener {
 
-	static double total = 25.00;
+	double total;
 
 	JPanel topPanel;
 	JPanel bottomPanel;
@@ -25,9 +25,10 @@ public class paymentGUI extends JPanel implements ActionListener {
 	
 	Container c;
 
-	public paymentGUI(Container c) {
+	public paymentGUI(Container c, double total) {
 		
 		this.c = c;
+		this.total = total;
 
 		JButton[] coinButtons = new JButton[8];
 
@@ -75,6 +76,7 @@ public class paymentGUI extends JPanel implements ActionListener {
 
 		// TextField that displays total amount needed for payment
 		displayTotal = new JTextField(8);
+		displayTotal.setEditable(false);
 		String.valueOf(total);
 		displayTotal.setText(String.valueOf(total));
 

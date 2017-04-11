@@ -159,11 +159,11 @@ public class DatabaseClasses {
 		return correctUser;
 	}
 	
-	public static String getPass(String pass){
+	public static String getPass(String user){
 		String correctPass = "test2";
 		
 		try {
-			ResultSet rs = dbEngine.executeQuery("select password from users where password = '" + pass + "';");
+			ResultSet rs = dbEngine.executeQuery("select password from users where username = '" + user + "';");
 			while (rs.next()) {
 
 				correctPass = rs.getString("password");
@@ -177,6 +177,22 @@ public class DatabaseClasses {
 				
 		return correctPass;
 	}
+	
+	public static String getStatus(String user){
+		String status = "test1";
+		try {
+			ResultSet rs = dbEngine.executeQuery("select status from users where username = '" + user + "'");
 
+			while (rs.next()) {
+
+				status = rs.getString("status");
+			}
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		}
+		
+		return status;
+	}
 	
 }
