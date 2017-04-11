@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.border.LineBorder;
 import javax.swing.text.AbstractDocument.Content;
 
+@SuppressWarnings("serial")
 public class paymentGUI extends JPanel implements ActionListener {
 
 	static double total = 25.00;

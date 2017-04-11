@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 import Database.DatabaseClasses;
 import GUI.Login;
 
+@SuppressWarnings("serial")
 public class mainFrame extends JFrame {
 
 	public mainFrame() {

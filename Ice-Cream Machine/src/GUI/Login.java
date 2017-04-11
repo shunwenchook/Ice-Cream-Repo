@@ -5,22 +5,22 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
 import javax.swing.*;
 
 import Database.DatabaseClasses;
 import Database.DatabaseConnect;
 
 public class Login extends JPanel implements ActionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	// creates gui elements
 	JButton cust;
 	JButton admin;
 	JFrame frame = new JFrame();
 	JTextField custuser;
-	JTextField custpass;
-	JTextField adminuser;
-	JTextField adminpass;
-	JLabel adminLabel;
+	JPasswordField custpass;
 	JLabel custLabel;
 
 	Container c;
@@ -39,15 +39,14 @@ public class Login extends JPanel implements ActionListener {
 		JPanel panel = new JPanel();
 		cust = new JButton("Customer login");
 		admin = new JButton("Admin login");
-		adminLabel = new JLabel("Admin");
+
 		custLabel = new JLabel("Customer");
 		/*
 		 * Creates input fields
 		 */
-		custpass = new JTextField("please enter your password");
+		custpass = new JPasswordField("please enter your password");
 		custuser = new JTextField("Please enter your username");
-		adminpass = new JTextField("please enter your password");
-		adminuser = new JTextField("Please enter your username");
+
 		/*
 		 * allows user input to be dealth with
 		 */
@@ -60,10 +59,6 @@ public class Login extends JPanel implements ActionListener {
 		panel.add(custuser, BorderLayout.NORTH);
 		panel.add(custpass, BorderLayout.NORTH);
 		panel.add(cust, BorderLayout.NORTH);
-		panel.add(adminLabel, BorderLayout.SOUTH);
-		panel.add(adminuser, BorderLayout.SOUTH);
-		panel.add(adminpass, BorderLayout.SOUTH);
-		panel.add(admin, BorderLayout.SOUTH);
 		add(panel);
 
 		setVisible(true);
