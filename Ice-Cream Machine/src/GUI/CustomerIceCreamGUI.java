@@ -196,7 +196,6 @@ public class CustomerIceCreamGUI extends JPanel implements ActionListener, Mouse
 		// TODO Auto-generated method stub
 		
 	}
-
 	@Override
 	public void mouseExited(MouseEvent e) {
 		// TODO Auto-generated method stub
@@ -219,6 +218,10 @@ public class CustomerIceCreamGUI extends JPanel implements ActionListener, Mouse
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == confirmButton) {
 			System.out.println("Total passed to next GUI : " + total); // passes the total to the next GUI
+			
+			revalidate();
+			c.removeAll();
+			c.add(new paymentGUI(c));
 		}
 	}
 }
