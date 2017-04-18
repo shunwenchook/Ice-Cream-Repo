@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
@@ -37,7 +38,7 @@ public class CustomerIceCreamGUI extends JPanel implements ActionListener, Mouse
 	// Creates lists for the selection
 	JList <String> coneList, toppingList, flavourList;
 	JLabel coneLabel, toppingLabel, flavourLabel, coneImageLabel, toppingImageLabel, flavourImageLabel, totalLabel;
-	JButton confirmButton;
+	JButton confirmButton, logoutButton;
 	
 	ImageIcon coneImage, toppingImage, flavourImage;
 	
@@ -53,9 +54,15 @@ public class CustomerIceCreamGUI extends JPanel implements ActionListener, Mouse
 	 */
 	public CustomerIceCreamGUI(Container c) {
 		this.c = c;
+				
+		JLabel headLabel = new JLabel("Welcome customer! Please select your ice cream!");
+		logoutButton = new JButton("Logout");
+		logoutButton.addActionListener(this);
 		
-		//super("Customer - Pick your Ice-Cream"); // Adds to the title of the GUI
-		
+		JPanel topPanel = new JPanel();
+		topPanel.add(headLabel);
+		topPanel.add(logoutButton);
+
 		// Creates the labels
 		coneLabel = new JLabel("Cone");
 		toppingLabel = new JLabel("Topping");
@@ -139,11 +146,9 @@ public class CustomerIceCreamGUI extends JPanel implements ActionListener, Mouse
 		optionPanel.add(totalPanel);
 		optionPanel.add(confirmPanel);
 
+		add(topPanel);
 		add(selectionPanel);
 		add(optionPanel, BorderLayout.SOUTH);
-		
-		setSize(600,600);
-		setVisible(true);
 	}
 	
 	/**
@@ -215,6 +220,14 @@ public class CustomerIceCreamGUI extends JPanel implements ActionListener, Mouse
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		if (e.getSource() == logoutButton) {
+			JOptionPane.showMessageDialog(this, "You have successfully logged out.");
+
+			revalidate();
+			c.removeAll();
+			c.add(new Login(c));
+		}
+		
 		if (e.getSource() == confirmButton) {
 			System.out.println("Total passed to next GUI : " + total); // passes the total to the next GUI
 			

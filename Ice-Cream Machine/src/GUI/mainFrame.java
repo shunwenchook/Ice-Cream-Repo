@@ -15,7 +15,7 @@ public class mainFrame extends JFrame {
 
 		Container c = getContentPane();
 		c.add(new Login(c));
-		setSize(600, 600);
+		setSize(700,700);
 		setVisible(true);
 	}
 

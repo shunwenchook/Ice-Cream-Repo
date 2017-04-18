@@ -101,7 +101,6 @@ public class DatabaseConnect {
 		}
 		return rs;
 	}
-		
 }
 		
 		

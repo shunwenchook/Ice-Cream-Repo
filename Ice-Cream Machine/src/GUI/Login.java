@@ -104,8 +104,12 @@ public class Login extends JPanel implements ActionListener {
 				if (Arrays.equals(correctPass.toCharArray(), custpass.getPassword())) {
 
 					if (DatabaseClasses.getStatus(uservalue).equals("admin")) {
-
 						System.out.println("Is Admin");
+						
+						revalidate();
+
+						c.removeAll();
+						c.add(new adminCRUD(c));
 					} else if (DatabaseClasses.getStatus(uservalue).equals("customer")) {
 						System.out.println("Is Customer");
 

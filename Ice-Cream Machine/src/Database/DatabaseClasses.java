@@ -1,7 +1,19 @@
 package Database;
 
+import java.awt.Container;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
 import java.util.Vector;
+
+import javax.swing.DefaultListSelectionModel;
+import javax.swing.JButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
 
 /**
  * 
@@ -18,6 +30,79 @@ public class DatabaseClasses {
 	 */
 	public static void init() {
 		dbEngine.connect(); // calls connect method
+	}
+	
+	/**
+	 * 
+	 * @param itemTable
+	 * @return
+	 */
+	public static JScrollPane getItemTable (JTable itemTable) {
+		//select everything from emp table
+		ResultSet rs;
+		ResultSetMetaData rsmd = null;
+		int colCount=0;
+		String [] colNames = null;
+		
+		//get the column names from the ResultSet metadata
+		try {
+			rs = dbEngine.executeQuery("select * from product");
+			rsmd = rs.getMetaData();
+			colCount = rsmd.getColumnCount();
+	        colNames = new String[colCount];
+	        for(int i=1;i<=colCount;i++) {
+	        	colNames[i-1] = rsmd.getColumnName(i);
+	        }
+	        
+	        
+	        
+	        //JTables have a view class and a Model class, the view class
+			//handles the drawing of the JTable, the Model class handles the properties
+			//and the data
+			
+			//Create a table model (used for controlling a JTable)
+			DefaultTableModel model = new DefaultTableModel(colNames,0);
+			itemTable = new JTable(model);
+			
+			
+			String [] currentRow = new String[colCount];//array to hold the row data
+			while(rs.next()) { //move the rs pointer on to the next record (starts before the 1st)
+				for(int i=1;i<=colCount;i++) {
+					currentRow[i-1] = rs.getString(i);
+
+				}
+				model.addRow(currentRow); //add the row to the table through the table model
+				
+			}
+		}
+		catch (SQLException e) {
+			System.err.println("SQLException: " + e.getMessage());
+		}
+		
+		JScrollPane scrollPane = new JScrollPane(itemTable);//add the table to a scroll pane
+		return scrollPane;
+	}
+	
+	public static void insertProduct(String id, String name, String price, String category, String imageField) {
+		
+		try {
+			dbEngine.executeQuery("insert into product values (" + id + ", '" + name + "', '" + price + "', '" + category + "', '" + imageField + "')");
+		}
+		catch (SQLException e) {
+			System.err.println("SQLException: " + e.getMessage());
+		}
+		
+	}
+	
+	public static void deleteProduct (String productID) {
+		
+		try {
+			dbEngine.executeQuery("delete from product where productID = '" + productID + "';"); // runs query from database to check for the image directory
+
+		}
+		catch (Exception e){
+			e.printStackTrace();
+		} 
 	}
 	
 	/**
