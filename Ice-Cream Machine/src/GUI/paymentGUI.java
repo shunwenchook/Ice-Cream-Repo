@@ -6,12 +6,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.border.LineBorder;
-import javax.swing.text.AbstractDocument.Content;
+
+/**
+ * 
+ * @author Conor Walsh
+ *
+ */
 
 @SuppressWarnings("serial")
 public class paymentGUI extends JPanel implements ActionListener {
 
+	double startingTotal;
 	double total;
+
+	String cone, topping, flavour;
 
 	JPanel topPanel;
 	JPanel bottomPanel;
@@ -22,13 +30,25 @@ public class paymentGUI extends JPanel implements ActionListener {
 	JLabel displayText;
 	JTextField displayTotal;
 	JButton[] coinButtons = new JButton[8];
-	
+
 	Container c;
 
-	public paymentGUI(Container c, double total) {
-		
+	/**
+	 * Constructor for paymentGUI panel takes in values from Selection GUI
+	 * @param c Container to build panel
+	 * @param total Total amount needed for customer to pay
+	 * @param cone Cone selected by user
+	 * @param topping Topping selected by user
+	 * @param flavour Flavour selected by user
+	 */
+	public paymentGUI(Container c, double total, String cone, String topping, String flavour) {
 		this.c = c;
 		this.total = total;
+		this.cone = cone;
+		this.topping = topping;
+		this.flavour = flavour;
+
+		startingTotal = total;
 
 		JButton[] coinButtons = new JButton[8];
 
@@ -88,7 +108,7 @@ public class paymentGUI extends JPanel implements ActionListener {
 
 		topPanel.add(displayPanel, BorderLayout.PAGE_END);
 
-		setSize(600,600);
+		setSize(600, 600);
 		setVisible(true);
 	}
 
@@ -158,6 +178,15 @@ public class paymentGUI extends JPanel implements ActionListener {
 			String.valueOf(total);
 			displayTotal.setText(String.valueOf(total));
 
+		}
+
+		if (total <= 0) {
+
+			JOptionPane.showMessageDialog(this, "Payment complete. Your change is: \u20ac" + Math.abs(total));
+
+			revalidate();
+			c.removeAll();
+			c.add(new receiptGUI(c, total, startingTotal, cone, topping, flavour));
 		}
 
 	}

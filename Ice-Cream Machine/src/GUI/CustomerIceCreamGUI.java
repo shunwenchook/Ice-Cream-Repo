@@ -229,11 +229,17 @@ public class CustomerIceCreamGUI extends JPanel implements ActionListener, Mouse
 		}
 		
 		if (e.getSource() == confirmButton) {
-			System.out.println("Total passed to next GUI : " + total); // passes the total to the next GUI
+			
+	        String selectedCone = (String) coneList.getSelectedValue();
+	        String selectedTopping = (String) toppingList.getSelectedValue();
+	        String selectedFlavour = (String) flavourList.getSelectedValue();
+
+			
+			System.out.println("Total passed to next GUI : " + total);
 			
 			revalidate();
 			c.removeAll();
-			c.add(new paymentGUI(c, total));
+			c.add(new paymentGUI(c, total, selectedCone, selectedTopping, selectedFlavour)); // passes values to the payment GUI
 		}
 	}
 }

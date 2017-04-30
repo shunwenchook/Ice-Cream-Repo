@@ -1,8 +1,8 @@
 package GUI;
 
-import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
-import java.awt.GridLayout;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -14,14 +14,17 @@ import javax.swing.*;
 import Database.DatabaseClasses;
 import Database.DatabaseConnect;
 
+
+/**
+ * 
+ * @author Darren Darcy
+ *
+ */
 public class Login extends JPanel implements ActionListener {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	// creates gui elements
 	JButton cust;
-	JButton admin;
 	JFrame frame = new JFrame();
 	JTextField custuser;
 	JPasswordField custpass;
@@ -40,47 +43,69 @@ public class Login extends JPanel implements ActionListener {
 
 		this.c = c;
 
-		JPanel panel = new JPanel();
-		cust = new JButton("Customer login");
-		admin = new JButton("Admin login");
+		JLabel titleLabel = new JLabel("Welcome to the Ice Cream Vending Machine!", SwingConstants.CENTER);
 
-		custLabel = new JLabel("Customer");
+		titleLabel.setFont(new Font("Serif", Font.PLAIN, 30));
+
+		cust = new JButton("Login");
+		cust.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+		custLabel = new JLabel("Please Login", SwingConstants.CENTER);
+
+		JLabel userLabel = new JLabel("Username: ");
+		JLabel passLabel = new JLabel("Password: ");
 		/*
 		 * Creates input fields
 		 */
-		custpass = new JPasswordField("Please enter your password");
 		custuser = new JTextField("Please enter your username");
-				
+		custpass = new JPasswordField("Please enter your password");
+
+		// adds listeners when the text area is clicked to remove texts
 		custuser.addFocusListener(new FocusAdapter() {
-		    public void focusGained(FocusEvent e) {
-		        JTextField source = (JTextField)e.getComponent();
-		        source.setText("");
-		        source.removeFocusListener(this);
-		    }
+			public void focusGained(FocusEvent e) {
+				JTextField source = (JTextField) e.getComponent();
+				source.setText("");
+				source.removeFocusListener(this);
+			}
 		});
-		
+
 		custpass.addFocusListener(new FocusAdapter() {
-		    public void focusGained(FocusEvent e) {
-		        JTextField source = (JTextField)e.getComponent();
-		        source.setText("");
-		        source.removeFocusListener(this);
-		    }
+			public void focusGained(FocusEvent e) {
+				JTextField source = (JTextField) e.getComponent();
+				source.setText("");
+				source.removeFocusListener(this);
+			}
 		});
 
 		/*
-		 * allows user input to be dealth with
+		 * allows user input to be dealt with
 		 */
 		cust.addActionListener(this);
 
-		panel.setLayout(new GridLayout(8, 1));
-		panel.add(custLabel, BorderLayout.NORTH);
-		panel.add(custuser, BorderLayout.NORTH);
-		panel.add(custpass, BorderLayout.NORTH);
-		panel.add(cust, BorderLayout.NORTH);
-		add(panel);
+		JPanel panel1 = new JPanel();
 
-		setVisible(true);
-		setSize(400, 400);
+		panel1.add(userLabel);
+		panel1.add(custuser);
+
+		JPanel panel2 = new JPanel();
+		panel2.add(passLabel);
+		panel2.add(custpass);
+
+		JPanel topPanel = new JPanel();
+		topPanel.setLayout(new BoxLayout(topPanel, BoxLayout.Y_AXIS));
+		topPanel.add(titleLabel);
+		topPanel.add(custLabel);
+
+		JPanel middlePanel = new JPanel();
+		middlePanel.setLayout(new BoxLayout(middlePanel, BoxLayout.Y_AXIS));
+		middlePanel.add(panel1);
+		middlePanel.add(panel2);
+		middlePanel.add(cust);
+
+		setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+		add(topPanel);
+		add(middlePanel);
+
 	}
 
 	/*
@@ -94,38 +119,41 @@ public class Login extends JPanel implements ActionListener {
 		String correctUser = DatabaseClasses.getUser(uservalue);
 		String correctPass = DatabaseClasses.getPass(uservalue);
 
-		/*
-		 * checks if username and password are valid
-		 */
+		// checks if username and password are valid
 
 		if (e.getSource() == cust) {
 
+			// checks username
 			if (uservalue.equals(correctUser)) {
+				// checks password
 				if (Arrays.equals(correctPass.toCharArray(), custpass.getPassword())) {
-
+					// checks the category of user
 					if (DatabaseClasses.getStatus(uservalue).equals("admin")) {
 						System.out.println("Is Admin");
-						
-						revalidate();
 
+						revalidate();
 						c.removeAll();
-						c.add(new adminCRUD(c));
+						c.add(new adminCRUD(c)); // passes container to Admin CRUD GUI
 					} else if (DatabaseClasses.getStatus(uservalue).equals("customer")) {
 						System.out.println("Is Customer");
 
 						revalidate();
-
 						c.removeAll();
-						c.add(new CustomerIceCreamGUI(c));
+						c.add(new CustomerIceCreamGUI(c)); // passes container to the customer selection GUI
 
 						System.out.println("Success");
 
 					}
 
 				} else {
+
+					JOptionPane.showMessageDialog(this, "Incorrect username or password. Please try again.");
+
 					System.out.println("Incorrect password");
 				}
 			} else {
+				JOptionPane.showMessageDialog(this, "Incorrect username or password. Please try again.");
+
 				System.out.println("Incorrect username");
 			}
 		}

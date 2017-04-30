@@ -7,6 +7,12 @@ import javax.swing.JFrame;
 import Database.DatabaseClasses;
 import GUI.Login;
 
+/**
+ * 
+ * @author Shun Wen Chook
+ *
+ */
+
 @SuppressWarnings("serial")
 public class mainFrame extends JFrame {
 
@@ -15,7 +21,7 @@ public class mainFrame extends JFrame {
 
 		Container c = getContentPane();
 		c.add(new Login(c));
-		setSize(700,700);
+		setSize(700, 700);
 		setVisible(true);
 	}
 

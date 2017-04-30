@@ -1,6 +1,5 @@
 package GUI;
 
-import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -16,6 +15,12 @@ import javax.swing.JTextField;
 
 import Database.DatabaseClasses;
 
+/**
+ * 
+ * @author Shun Wen Chook
+ *
+ */
+@SuppressWarnings("serial")
 public class adminCreate extends JPanel implements ActionListener {
 
 	Container c;
@@ -26,6 +31,11 @@ public class adminCreate extends JPanel implements ActionListener {
 	JComboBox<String> categoryBox;
 	JButton createButton, backButton;
 
+	
+	/**
+	 * Constructor for adminCreate
+	 * @param c Coontainer
+	 */
 	public adminCreate(Container c) {
 		this.c = c;
 
@@ -80,7 +90,7 @@ public class adminCreate extends JPanel implements ActionListener {
 		if (e.getSource() == backButton) {
 			revalidate();
 			c.removeAll();
-			c.add(new adminCRUD(c));
+			c.add(new adminCRUD(c)); // returns to the adminCRUD
 		}
 
 		if (e.getSource() == createButton) {
@@ -88,13 +98,13 @@ public class adminCreate extends JPanel implements ActionListener {
 			String s = (String) categoryBox.getSelectedItem();
 
 			DatabaseClasses.insertProduct(idField.getText(), nameField.getText(), priceField.getText(), s,
-					imageField.getText());
+					imageField.getText()); // passes values values for the insertProduct method in the DatabaseClasses
 
 			JOptionPane.showMessageDialog(this, "Product #" + idField.getText() + " was created");
 
 			revalidate();
 			c.removeAll();
-			c.add(new adminCRUD(c));
+			c.add(new adminCRUD(c)); // retruns to adminCRUD
 		}
 	}
 

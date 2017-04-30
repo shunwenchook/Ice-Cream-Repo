@@ -14,6 +14,12 @@ import javax.swing.JTable;
 
 import Database.DatabaseClasses;
 
+/**
+ * 
+ * @author Shun Wen Chook
+ *
+ */
+@SuppressWarnings("serial")
 public class adminCRUD extends JPanel implements ActionListener {
 
 	JTable itemTable = null;
@@ -22,6 +28,10 @@ public class adminCRUD extends JPanel implements ActionListener {
 
 	Container c;
 
+	/**
+	 * Constructor for AdminCRUD
+	 * @param c
+	 */
 	public adminCRUD(Container c) {
 		this.c = c;
 
@@ -45,7 +55,7 @@ public class adminCRUD extends JPanel implements ActionListener {
 		bottomPanel.add(deleteButton);
 
 		add(topPanel);
-		add(DatabaseClasses.getItemTable(itemTable));
+		add(DatabaseClasses.getItemTable(itemTable)); // Calls getItemTable from DatabaseClasses
 		add(bottomPanel, BorderLayout.SOUTH);
 
 	}
@@ -58,29 +68,29 @@ public class adminCRUD extends JPanel implements ActionListener {
 
 			revalidate();
 			c.removeAll();
-			c.add(new Login(c));
+			c.add(new Login(c)); // passes Container to the Login GUI
 		}
 
 		if (e.getSource() == createButton) {
 
 			revalidate();
 			c.removeAll();
-			c.add(new adminCreate(c));
+			c.add(new adminCreate(c)); // passes container to the adminCreate GUi when clicked
 		}
 
 		if (e.getSource() == deleteButton) {
 
 			String s = (String) JOptionPane.showInputDialog(this, "Please enter the productID to delete",
-					"Delete Product", JOptionPane.PLAIN_MESSAGE);
+					"Delete Product", JOptionPane.PLAIN_MESSAGE); // prompts user for productID input
 			System.out.println(s);
-			if (s != null && (s.length() > 0)) {
-				DatabaseClasses.deleteProduct(s);
+			if (s != null && (s.length() > 0)) { // checks if input is not null and if it is not blank
+				DatabaseClasses.deleteProduct(s); // Passes productID to deleteProduct method 
 
 				JOptionPane.showMessageDialog(this, "Product with product ID of '" + s + "' has been deleted");
 
 				revalidate();
 				c.removeAll();
-				c.add(new adminCRUD(c));
+				c.add(new adminCRUD(c)); // refreshes the page
 
 			} else {
 				JOptionPane.showMessageDialog(this, "Sorry the value you have entered is not valid. Please try again.");
